@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Valentine's Day 💖</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<button class="toggle" onclick="toggleMode()">☀️ / 🌙</button>
+
+<div class="hearts"></div>
+
+<div class="container">
+
+<div class="card">
+
+<h1>Happy Valentine's Day 💖</h1>
+
+<div class="flowers">🌹 🌸 🌷 🌺 🌹</div>
+
+<p class="message">
+Valentine’s Day is not only about grand gestures or beautiful gifts,
+but about the quiet moments that make everything feel a little more
+special than usual.
+<br><br>
+It’s about the way someone’s presence can turn an ordinary day into
+something meaningful, the way a simple conversation can feel like
+home, and how even the smallest memories can stay in our hearts
+longer than we expect.
+<br><br>
+You bring a kind of warmth that words sometimes struggle to explain.
+The laughter, the comfort, the calmness — all of it creates a space
+that feels genuine and real.
+<br><br>
+On this day, I hope you’re reminded of how appreciated you are,
+how valued your presence is, and how much light you bring to
+the people around you.
+<br><br>
+May your days be filled with happiness,
+your nights with peaceful thoughts,
+and your life with moments worth remembering.
+<br><br>
+You deserve all the love this world has to give — not just today,
+but every single day that follows.
+<br><br>
+Happy Valentine’s Day 💕
+</p>
+
+<h3>From Rhey, with love and care, always. 💌</h3>
+
+</div>
+</div>
+
+<script>
+function toggleMode(){
+document.body.classList.toggle("dark")
+}
+
+for(let i=0;i<40;i++){
+let heart=document.createElement("span")
+heart.innerHTML="❤"
+heart.style.left=Math.random()*100+"%"
+heart.style.animationDuration=(Math.random()*5+5)+"s"
+heart.style.fontSize=(Math.random()*20+10)+"px"
+document.querySelector(".hearts").appendChild(heart)
+}
+</script>
+
+</body>
+</html>
