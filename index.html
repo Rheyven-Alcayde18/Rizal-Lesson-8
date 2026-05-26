@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Filibusterismo — Study Reviewer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #f5f3f0;
+    --parchment: #ece6db;
+    --ink: #111418;
+    --ink-mid: #2e3440;
+    --ink-light: #606878;
+    --blue: #1a3a6b;
+    --blue-light: #2e5fa3;
+    --blue-pale: #eaf0fa;
+    --gold: #b08c2a;
+    --gold-pale: #fdf7e3;
+    --border: rgba(20,30,60,0.11);
+    --border-strong: rgba(20,30,60,0.22);
+    --shadow: 0 4px 32px rgba(10,20,50,0.10);
+    --shadow-sm: 0 2px 12px rgba(10,20,50,0.07);
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; font-weight: 400; min-height: 100vh; line-height: 1.7; }
+
+  /* HERO */
+  .hero {
+    background: #0d1b2e;
+    color: var(--cream);
+    padding: 3.5rem 2rem 2.8rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content:'';
+    position:absolute; inset:0;
+    background: radial-gradient(ellipse at 60% 0%, rgba(46,95,163,0.22) 0%, transparent 65%),
+                radial-gradient(ellipse at 20% 100%, rgba(176,140,42,0.13) 0%, transparent 55%);
+    pointer-events:none;
+  }
+  .hero-eyebrow { font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; font-weight:500; }
+  .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(2.2rem,6vw,3.8rem); font-weight:600; line-height:1.15; margin-bottom:.5rem; }
+  .hero h1 em { font-style:italic; color:var(--gold); }
+  .hero-sub { font-size:15px; color:rgba(245,243,240,0.55); margin-top:.5rem; }
+  .hero-meta { margin-top:1.8rem; display:flex; justify-content:center; gap:2rem; flex-wrap:wrap; }
+  .hero-meta span { font-size:12px; color:rgba(245,243,240,0.45); letter-spacing:.05em; }
+  .hero-meta strong { color:rgba(245,243,240,0.82); font-weight:500; }
+
+  /* NAV */
+  .tab-bar { position:sticky; top:0; z-index:100; background:#0d1b2e; border-bottom:1px solid rgba(255,255,255,0.07); display:flex; justify-content:center; }
+  .tab-btn { background:none; border:none; border-bottom:2.5px solid transparent; padding:14px 32px; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; letter-spacing:.04em; color:rgba(245,243,240,0.4); cursor:pointer; transition:color .2s,border-color .2s; display:flex; align-items:center; gap:8px; }
+  .tab-btn svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.8; }
+  .tab-btn.active { color:var(--gold); border-bottom-color:var(--gold); }
+  .tab-btn:hover:not(.active) { color:rgba(245,243,240,0.75); }
+
+  .panel { display:none; }
+  .panel.active { display:block; }
+  .container { max-width:880px; margin:0 auto; padding:2.5rem 1.5rem 4rem; }
+
+  /* SECTION LABEL */
+  .section-label { font-size:10px; letter-spacing:.18em; text-transform:uppercase; font-weight:500; color:var(--blue-light); margin:2.5rem 0 .8rem; }
+  .section-label:first-child { margin-top:0; }
+
+  /* CARDS */
+  .rcard { background:#fff; border:1px solid var(--border); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:.75rem; box-shadow:var(--shadow-sm); }
+  .rcard h3 { font-family:'Playfair Display',serif; font-size:17px; font-weight:600; color:var(--ink); margin-bottom:.6rem; }
+  .rcard ul { padding-left:1.1rem; }
+  .rcard li, .rcard p { font-size:14px; color:var(--ink-mid); line-height:1.75; }
+  .rcard li { margin-bottom:.35rem; }
+  .rcard li strong { color:var(--ink); font-weight:500; }
+
+  .tag { display:inline-block; background:var(--blue-pale); color:#1a3a6b; font-size:11px; font-weight:500; border-radius:20px; padding:2px 10px; margin-right:6px; border:1px solid rgba(46,95,163,0.2); }
+  .tag-gold { background:var(--gold-pale); color:#7a5a10; border-color:rgba(176,140,42,0.2); }
+
+  /* COMPARISON TABLE */
+  .compare-table { width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:var(--shadow-sm); border:1px solid var(--border); }
+  .compare-table th { background:#0d1b2e; color:var(--gold); font-size:13px; font-weight:500; padding:.9rem 1.25rem; text-align:left; letter-spacing:.04em; }
+  .compare-table td { padding:.8rem 1.25rem; font-size:14px; color:var(--ink-mid); border-top:1px solid var(--border); }
+  .compare-table tr:nth-child(even) td { background:var(--cream); }
+
+  /* OBJECTIVES */
+  .obj-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
+  .obj-card { background:#fff; border:1px solid var(--border); border-radius:10px; padding:1rem 1.1rem; box-shadow:var(--shadow-sm); }
+  .obj-num { font-family:'Playfair Display',serif; font-size:28px; font-weight:600; color:var(--blue-pale); line-height:1; margin-bottom:.4rem; }
+  .obj-text { font-size:13px; color:var(--ink-mid); line-height:1.6; }
+
+  /* CHARACTER GRID */
+  .char-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; }
+  .char-card { background:#fff; border:1px solid var(--border); border-radius:10px; padding:1rem 1.1rem; box-shadow:var(--shadow-sm); transition:box-shadow .2s,transform .2s; }
+  .char-card:hover { box-shadow:var(--shadow); transform:translateY(-2px); }
+  .char-avatar { width:38px; height:38px; border-radius:50%; background:var(--parchment); border:1px solid var(--border-strong); display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:13px; font-weight:600; color:var(--ink-mid); margin-bottom:.6rem; }
+  .char-name { font-size:13px; font-weight:500; color:var(--ink); margin-bottom:.3rem; }
+  .char-role { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.07em; color:var(--blue-light); margin-bottom:.3rem; }
+  .char-desc { font-size:12px; color:var(--ink-light); line-height:1.6; }
+
+  .divider { height:1px; background:var(--border); margin:2rem 0; }
+
+  /* FLASHCARDS */
+  .fc-meta { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
+  .fc-count { font-size:13px; color:var(--ink-light); }
+  .fc-cat { font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--blue-light); font-weight:500; }
+  .fc-progress { height:3px; background:var(--parchment); border-radius:3px; overflow:hidden; margin-bottom:1.25rem; }
+  .fc-fill { height:100%; background:var(--gold); border-radius:3px; transition:width .35s ease; }
+  .fc-stage { perspective:1200px; height:220px; cursor:pointer; margin-bottom:1rem; user-select:none; }
+  .fc-inner { position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .5s cubic-bezier(.4,0,.2,1); }
+  .fc-inner.flipped { transform:rotateY(180deg); }
+  .fc-face { position:absolute; inset:0; backface-visibility:hidden; border-radius:14px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2rem; text-align:center; border:1px solid var(--border); box-shadow:var(--shadow); }
+  .fc-front { background:#fff; }
+  .fc-back { background:#0d1b2e; transform:rotateY(180deg); }
+  .fc-label { font-size:10px; letter-spacing:.15em; text-transform:uppercase; font-weight:500; margin-bottom:.75rem; }
+  .fc-front .fc-label { color:var(--ink-light); }
+  .fc-back .fc-label { color:var(--gold); }
+  .fc-q { font-family:'Playfair Display',serif; font-size:18px; font-weight:600; color:var(--ink); line-height:1.45; }
+  .fc-a { font-size:15px; color:var(--cream); line-height:1.7; }
+  .fc-hint { text-align:center; font-size:12px; color:var(--ink-light); margin-bottom:1.25rem; }
+  .fc-nav { display:flex; gap:12px; justify-content:center; }
+
+  /* BUTTONS */
+  .btn { background:#fff; border:1px solid var(--border-strong); border-radius:8px; padding:9px 24px; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; color:var(--ink); cursor:pointer; transition:background .15s,transform .1s; }
+  .btn:hover { background:var(--parchment); }
+  .btn:active { transform:scale(.97); }
+  .btn:disabled { opacity:.3; cursor:default; pointer-events:none; }
+  .btn-primary { background:var(--blue); border-color:var(--blue); color:#fff; }
+  .btn-primary:hover { background:var(--blue-light); border-color:var(--blue-light); }
+  .btn-ghost { background:none; border:none; color:var(--ink-light); padding:9px 16px; }
+  .btn-ghost:hover { background:var(--parchment); }
+
+  /* QUIZ */
+  .quiz-prog-bar { height:3px; background:var(--parchment); border-radius:3px; overflow:hidden; margin-bottom:1.75rem; }
+  .quiz-prog-fill { height:100%; background:var(--blue); border-radius:3px; transition:width .4s ease; }
+  .quiz-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; }
+  .q-num { font-size:12px; letter-spacing:.08em; text-transform:uppercase; font-weight:500; color:var(--blue-light); }
+  .score-pill { background:var(--gold-pale); border:1px solid rgba(176,140,42,0.3); border-radius:20px; padding:4px 14px; font-size:12px; font-weight:500; color:#7a5a10; }
+  .q-text { font-family:'Playfair Display',serif; font-size:20px; font-weight:600; color:var(--ink); line-height:1.45; margin-bottom:1.5rem; }
+  .choices { display:flex; flex-direction:column; gap:10px; margin-bottom:1.25rem; }
+  .choice { background:#fff; border:1px solid var(--border-strong); border-radius:10px; padding:.9rem 1.2rem; font-family:'DM Sans',sans-serif; font-size:14px; color:var(--ink); cursor:pointer; text-align:left; transition:background .15s,border-color .15s,transform .1s; display:flex; align-items:center; gap:12px; }
+  .choice-letter { width:26px; height:26px; border-radius:50%; background:var(--parchment); border:1px solid var(--border-strong); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:500; color:var(--ink-light); flex-shrink:0; transition:background .15s,color .15s; }
+  .choice:hover:not(:disabled) { background:var(--blue-pale); border-color:var(--blue-light); }
+  .choice:hover:not(:disabled) .choice-letter { background:var(--blue); color:#fff; border-color:var(--blue); }
+  .choice.correct { background:#eaf5e8; border-color:#4a9a1a; }
+  .choice.correct .choice-letter { background:#4a9a1a; color:#fff; border-color:#4a9a1a; }
+  .choice.wrong { background:#fbeaea; border-color:#b03030; }
+  .choice.wrong .choice-letter { background:#b03030; color:#fff; border-color:#b03030; }
+  .explanation { background:var(--blue-pale); border-left:3px solid var(--blue-light); border-radius:0 8px 8px 0; padding:.85rem 1.1rem; font-size:13.5px; color:var(--ink-mid); line-height:1.7; margin-bottom:1.25rem; display:none; }
+  .explanation.show { display:block; }
+  .q-next { display:none; }
+  .q-next.show { display:inline-flex; align-items:center; gap:8px; }
+
+  /* RESULTS */
+  .results { text-align:center; padding:3rem 1rem; }
+  .results-icon { font-size:52px; margin-bottom:1rem; display:block; }
+  .results h2 { font-family:'Playfair Display',serif; font-size:28px; font-weight:600; color:var(--ink); margin-bottom:.5rem; }
+  .results p { font-size:15px; color:var(--ink-light); margin-bottom:2rem; line-height:1.7; }
+  .score-big { font-family:'Playfair Display',serif; font-size:64px; font-weight:600; color:var(--blue); line-height:1; margin-bottom:.25rem; }
+  .score-label { font-size:13px; color:var(--ink-light); margin-bottom:2rem; }
+
+  /* FOOTER */
+  .site-footer { background:#0d1b2e; color:rgba(245,243,240,0.35); text-align:center; padding:1.5rem; font-size:12px; letter-spacing:.04em; }
+
+  @media(max-width:600px){
+    .hero h1{font-size:2rem;}
+    .tab-btn{padding:12px 16px;font-size:12px;}
+    .char-grid{grid-template-columns:1fr 1fr;}
+    .fc-q{font-size:15px;}
+    .q-text{font-size:17px;}
+    .compare-table th,.compare-table td{padding:.65rem .85rem;font-size:13px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="hero-eyebrow">PI 100 · Lesson 8</p>
+  <h1>El Filibusterismo<br><em>Study Reviewer</em></h1>
+  <p class="hero-sub">The Reign of Greed &nbsp;·&nbsp; Sequel to Noli Me Tangere</p>
+  <div class="hero-meta">
+    <span><strong>Published</strong> Ghent, Belgium 1891</span>
+    <span><strong>Author</strong> Dr. José Rizal</span>
+    <span><strong>38 Chapters</strong></span>
+  </div>
+</header>
+
+<nav class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('reviewer',this)">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+    Reviewer
+  </button>
+  <button class="tab-btn" onclick="switchTab('flashcards',this)">
+    <svg viewBox="0 0 24 24"><rect x="2" y="7" width="16" height="13" rx="2"/><path d="M22 5V17"/><path d="M6 7V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-2"/></svg>
+    Flashcards
+  </button>
+  <button class="tab-btn" onclick="switchTab('quiz',this)">
+    <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    Quiz
+  </button>
+</nav>
+
+<!-- ===== REVIEWER ===== -->
+<div id="reviewer" class="panel active">
+  <div class="container">
+
+    <p class="section-label">The Novel & Its History</p>
+    <div class="rcard">
+      <h3>Overview</h3>
+      <ul>
+        <li><em>El Filibusterismo</em> is the <strong>second novel</strong> by José Rizal and the direct sequel to <em>Noli Me Tangere</em>. Written in Spanish.</li>
+        <li>English title: <strong>"The Reign of Greed"</strong></li>
+        <li>Contains <strong>38 chapters</strong>.</li>
+        <li>Rizal dedicated the novel to the <strong>three martyred priests of the Cavite Mutiny</strong> — their execution greatly influenced the novel's message and title.</li>
+      </ul>
+    </div>
+    <div class="rcard">
+      <h3>Dedication — The GOMBURZA</h3>
+      <ul>
+        <li><strong>Mariano Gómez</strong></li>
+        <li><strong>José Burgos</strong></li>
+        <li><strong>Jacinto Zamora</strong></li>
+      </ul>
+      <p style="margin-top:.6rem;font-size:14px;color:var(--ink-mid)">Their execution profoundly shaped the tone and revolutionary spirit of the novel.</p>
+    </div>
+
+    <p class="section-label">Meaning of "Filibustero"</p>
+    <div class="rcard">
+      <ul>
+        <li>Rizal explained the term to his German friend <strong>Ferdinand Blumentritt</strong> because it was little known in the Philippines.</li>
+        <li>During the Spanish period, the word was used to label anyone suspected of being a <strong>revolutionary or dangerous patriot</strong>.</li>
+        <li>Educated Filipinos <strong>feared</strong> the term because it was associated with rebellion and execution.</li>
+      </ul>
+    </div>
+
+    <p class="section-label">Writing & Publication</p>
+    <div class="rcard">
+      <h3>Timeline</h3>
+      <ul>
+        <li><span class="tag">Calamba</span> October 1887 — Rizal began writing the novel.</li>
+        <li><span class="tag">London</span> 1888 — Revised parts of the manuscript.</li>
+        <li><span class="tag">Paris / Brussels</span> Continued writing; moved to Brussels to focus on finishing.</li>
+        <li><span class="tag">Biarritz</span> <strong>March 29, 1891</strong> — Rizal completed the novel.</li>
+        <li><span class="tag">Ghent, Belgium</span> <strong>September 18, 1891</strong> — Novel published with financial help from <strong>Valentin Ventura</strong>.</li>
+      </ul>
+    </div>
+    <div class="rcard">
+      <h3>Additional Facts</h3>
+      <ul>
+        <li>Rizal spent <strong>3 years</strong> writing the novel.</li>
+        <li>Copies were sent to <strong>Ferdinand Blumentritt, Mariano Ponce, Graciano López Jaena, Antonio Luna,</strong> and <strong>Juan Luna</strong>.</li>
+        <li>The original manuscript is preserved at the <strong>National Library of the Philippines</strong>.</li>
+      </ul>
+    </div>
+
+    <p class="section-label">Objectives of Dr. Rizal</p>
+    <div class="obj-grid">
+      <div class="obj-card"><div class="obj-num">01</div><div class="obj-text">Defend Filipinos from accusations of ignorance and foolishness.</div></div>
+      <div class="obj-card"><div class="obj-num">02</div><div class="obj-text">Show the suffering of Filipinos under Spanish colonial rule.</div></div>
+      <div class="obj-card"><div class="obj-num">03</div><div class="obj-text">Discuss the effects of religion and beliefs in daily life.</div></div>
+      <div class="obj-card"><div class="obj-num">04</div><div class="obj-text">Expose corruption, cruelty, and abuse in the government.</div></div>
+    </div>
+
+    <div class="divider"></div>
+    <p class="section-label">Synopsis</p>
+    <div class="rcard">
+      <ul>
+        <li><strong>Crisostomo Ibarra</strong> returns in disguise as a wealthy jeweler named <strong>Simoun</strong>, seeking revenge against the Spanish government.</li>
+        <li>Simoun plans a <strong>violent revolution</strong> and recruits <strong>Basilio</strong> (now a medical student) to trigger an uprising via a bomb explosion at a social gathering.</li>
+        <li><strong>Isagani</strong> — warned by Basilio — realizes his beloved is inside the building and throws the bomb into the river, <strong>foiling the plan</strong>.</li>
+        <li>After the failed revolution, <strong>Simoun takes poison</strong> and seeks refuge at the house of <strong>Father Florentino</strong>, who hears his confession before his death.</li>
+        <li>Father Florentino <strong>throws Simoun's jewels into the sea</strong>, declaring that treasures used for corruption should someday serve a noble purpose.</li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+    <p class="section-label">Characters</p>
+    <div class="char-grid">
+      <div class="char-card"><div class="char-avatar">SI</div><div class="char-name">Simoun</div><div class="char-role">Protagonist</div><div class="char-desc">Crisostomo Ibarra in disguise as a wealthy jeweler. Seeks revenge against Spain. Symbolizes anger, revenge, and revolution.</div></div>
+      <div class="char-card"><div class="char-avatar">BA</div><div class="char-name">Basilio</div><div class="char-role">Educated Youth</div><div class="char-desc">Son of Sisa (from Noli). Medical student, initially peaceful, later influenced by Simoun. Represents educated Filipino youth.</div></div>
+      <div class="char-card"><div class="char-avatar">IS</div><div class="char-name">Isagani</div><div class="char-role">Idealist</div><div class="char-desc">Poet and idealistic student; boyfriend of Paulita Gomez. Throws the bomb into the river to save lives. Represents patriotism and idealism.</div></div>
+      <div class="char-card"><div class="char-avatar">MC</div><div class="char-name">Maria Clara</div><div class="char-role">Symbol</div><div class="char-desc">Ibarra's former lover; appears briefly. Her suffering deeply affects Simoun. Symbolizes the abused and oppressed Filipina.</div></div>
+      <div class="char-card"><div class="char-avatar">JU</div><div class="char-name">Juli</div><div class="char-role">Innocent Victim</div><div class="char-desc">Basilio's sweetheart. Sacrifices herself to protect her dignity. Represents innocent Filipinos suffering from abuse and injustice.</div></div>
+      <div class="char-card"><div class="char-avatar">PG</div><div class="char-name">Paulita Gomez</div><div class="char-role">Social Climber</div><div class="char-desc">Beautiful and wealthy; leaves Isagani for Juanito Pelaez. Represents those attracted to wealth and social status.</div></div>
+      <div class="char-card"><div class="char-avatar">JP</div><div class="char-name">Juanito Pelaez</div><div class="char-role">Privileged</div><div class="char-desc">Rich student favored by friars; marries Paulita Gomez. Represents privileged Filipinos who benefit from colonial society.</div></div>
+      <div class="char-card"><div class="char-avatar">KT</div><div class="char-name">Kabesang Tales</div><div class="char-role">Rebel</div><div class="char-desc">Farmer whose land was taken by the friars. Becomes a rebel because of injustice. Represents Filipinos driven to rebellion.</div></div>
+      <div class="char-card"><div class="char-avatar">FF</div><div class="char-name">Father Florentino</div><div class="char-role">Moral Voice</div><div class="char-desc">Wise and patriotic Filipino priest. Gives moral reflections at the novel's end. Represents hope, wisdom, and true patriotism.</div></div>
+      <div class="char-card"><div class="char-avatar">PC</div><div class="char-name">Padre Camorra</div><div class="char-role">Corrupt Friar</div><div class="char-desc">Corrupt and abusive friar responsible for Juli's tragic fate. Represents immoral religious officials.</div></div>
+      <div class="char-card"><div class="char-avatar">PS</div><div class="char-name">Padre Salvi</div><div class="char-role">Hypocrite</div><div class="char-desc">Former parish priest of San Diego; manipulative and cruel. Symbolizes hypocrisy among friars.</div></div>
+      <div class="char-card"><div class="char-avatar">DC</div><div class="char-name">Don Custodio</div><div class="char-role">Incompetent Official</div><div class="char-desc">Government official who rejects the students' request for a Spanish academy. Represents incompetent officials.</div></div>
+      <div class="char-card"><div class="char-avatar">BZ</div><div class="char-name">Ben Zayb</div><div class="char-role">Biased Media</div><div class="char-desc">Journalist who twists the truth. Represents biased media and propaganda.</div></div>
+      <div class="char-card"><div class="char-avatar">PI</div><div class="char-name">Padre Irene</div><div class="char-role">Selfish Clergy</div><div class="char-desc">Adviser to students who pretends to help but serves his own interests. Represents selfish clergy members.</div></div>
+      <div class="char-card"><div class="char-avatar">PP</div><div class="char-name">Placido Penitente</div><div class="char-role">Frustrated Student</div><div class="char-desc">Student frustrated with the education system. Represents students suffering under unfair education.</div></div>
+      <div class="char-card"><div class="char-avatar">TS</div><div class="char-name">Tandang Selo</div><div class="char-role">Helpless Victim</div><div class="char-desc">Juli's grandfather; suffers silently from injustice. Represents helpless victims of oppression.</div></div>
+      <div class="char-card"><div class="char-avatar">MA</div><div class="char-name">Makaraig</div><div class="char-role">Reformist</div><div class="char-desc">Wealthy student who supports the Spanish academy project. Represents educated reformists.</div></div>
+      <div class="char-card"><div class="char-avatar">PE</div><div class="char-name">Pecson</div><div class="char-role">Skeptic</div><div class="char-desc">Student known for sarcastic comments. Represents skepticism and criticism.</div></div>
+    </div>
+
+    <div class="divider"></div>
+    <p class="section-label">Noli Me Tangere vs. El Filibusterismo</p>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Noli Me Tangere</th>
+          <th>El Filibusterismo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Romantic novel</td><td>Political novel</td></tr>
+        <tr><td>Book of the heart</td><td>Book of the head</td></tr>
+        <tr><td>Book of feeling</td><td>Book of thought</td></tr>
+        <tr><td>Freshness, humor, color</td><td>Bitterness, sorrow, violence</td></tr>
+        <tr><td>64 chapters</td><td>38 chapters</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- ===== FLASHCARDS ===== -->
+<div id="flashcards" class="panel">
+  <div class="container">
+    <div class="fc-meta">
+      <span class="fc-count" id="fc-count">Card 1 of 20</span>
+      <span class="fc-cat">Click card to flip</span>
+    </div>
+    <div class="fc-progress"><div class="fc-fill" id="fc-fill" style="width:5%"></div></div>
+    <div class="fc-stage" onclick="flipCard()">
+      <div class="fc-inner" id="fc-inner">
+        <div class="fc-face fc-front">
+          <div class="fc-label">Question</div>
+          <div class="fc-q" id="fc-q"></div>
+        </div>
+        <div class="fc-face fc-back">
+          <div class="fc-label">Answer</div>
+          <div class="fc-a" id="fc-a"></div>
+        </div>
+      </div>
+    </div>
+    <p class="fc-hint">Use Prev / Next to navigate • Shuffle to randomize</p>
+    <div class="fc-nav">
+      <button class="btn" id="fc-prev" onclick="fcNav(-1)">← Prev</button>
+      <button class="btn btn-ghost" onclick="shuffleCards()">Shuffle</button>
+      <button class="btn" id="fc-next" onclick="fcNav(1)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== QUIZ ===== -->
+<div id="quiz" class="panel">
+  <div class="container">
+    <div id="quiz-body">
+      <div class="quiz-prog-bar"><div class="quiz-prog-fill" id="quiz-fill" style="width:0%"></div></div>
+      <div class="quiz-header">
+        <span class="q-num" id="q-num">Question 1 of 15</span>
+        <span class="score-pill" id="q-score">Score: 0 / 0</span>
+      </div>
+      <div class="q-text" id="q-text"></div>
+      <div class="choices" id="choices"></div>
+      <div class="explanation" id="explanation"></div>
+      <button class="btn btn-primary q-next" id="q-next" onclick="nextQ()">Next question →</button>
+    </div>
+    <div id="quiz-results" class="results" style="display:none">
+      <span class="results-icon" id="result-icon"></span>
+      <div class="score-big" id="result-score"></div>
+      <div class="score-label" id="result-label"></div>
+      <h2 id="result-title"></h2>
+      <p id="result-msg"></p>
+      <button class="btn btn-primary" onclick="restartQuiz()">Try again</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  El Filibusterismo Reviewer &nbsp;·&nbsp; PI 100 The Life and Works of Rizal &nbsp;·&nbsp; Lesson 8
+</footer>
+
+<script>
+const flashcards = [
+  {q:"What is the English title of El Filibusterismo?", a:"'The Reign of Greed' — reflecting the novel's focus on corruption and abuse under colonial rule."},
+  {q:"How many chapters does El Filibusterismo contain?", a:"38 chapters — compared to 64 in Noli Me Tangere."},
+  {q:"To whom did Rizal dedicate El Filibusterismo?", a:"To the three martyred priests of the Cavite Mutiny — Mariano Gómez, José Burgos, and Jacinto Zamora (GOMBURZA)."},
+  {q:"Where and when did Rizal begin writing El Filibusterismo?", a:"In Calamba in October 1887."},
+  {q:"Where and when did Rizal complete El Filibusterismo?", a:"In Biarritz on March 29, 1891."},
+  {q:"Where and when was El Filibusterismo published?", a:"In Ghent, Belgium on September 18, 1891."},
+  {q:"Who provided financial help for the publication of El Filibusterismo?", a:"Valentin Ventura — who funded the printing of the novel in Ghent, Belgium."},
+  {q:"What does the word 'filibustero' mean in the context of Spanish colonial Philippines?", a:"A label for anyone suspected of being a revolutionary or dangerous patriot — feared by Filipinos because it was associated with rebellion and execution."},
+  {q:"Who did Rizal explain the term 'filibustero' to, and why?", a:"To his German friend Ferdinand Blumentritt, because the term was little known outside the Philippines."},
+  {q:"Who is Simoun, and what does he symbolize?", a:"Simoun is Crisostomo Ibarra from Noli Me Tangere in disguise as a wealthy jeweler. He symbolizes anger, revenge, and revolution."},
+  {q:"Who is Basilio in El Filibusterismo?", a:"Son of Sisa from Noli Me Tangere; now a medical student. Initially peaceful but influenced by Simoun. Represents educated Filipino youth."},
+  {q:"How does Isagani prevent the revolution's bomb explosion?", a:"When he realizes the woman he loves is inside the building, he throws the lamp bomb into the river, saving lives and foiling Simoun's plan."},
+  {q:"What happens to Simoun at the end of the novel?", a:"After the failed revolution, Simoun takes poison and seeks refuge at Father Florentino's house, where he confesses before dying."},
+  {q:"What does Father Florentino do with Simoun's jewels?", a:"He throws them into the sea, saying treasures used for corruption should someday serve a noble purpose."},
+  {q:"What does Kabesang Tales represent in the novel?", a:"A farmer whose land was taken by the friars; he becomes a rebel. He represents oppressed Filipinos driven to rebellion by injustice."},
+  {q:"What does Juli represent in El Filibusterismo?", a:"Basilio's sweetheart who sacrifices herself to protect her dignity. She represents innocent Filipinos who suffer from abuse and injustice."},
+  {q:"How is El Filibusterismo different from Noli Me Tangere in tone?", a:"Noli is romantic — the book of the heart with freshness and humor. El Fili is political — the book of the head with bitterness, sorrow, and violence."},
+  {q:"What are Rizal's four objectives in writing El Filibusterismo?", a:"(1) Defend Filipinos from accusations of ignorance; (2) show Filipino suffering under Spain; (3) discuss effects of religion; (4) expose government corruption."},
+  {q:"Where is the original manuscript of El Filibusterismo preserved?", a:"At the National Library of the Philippines."},
+  {q:"What role does Father Florentino play in the novel?", a:"A wise, patriotic Filipino priest who gives moral reflections near the novel's end. He represents hope, wisdom, and true patriotism."}
+];
+
+const questions = [
+  {q:"What is the English translation of El Filibusterismo?",choices:["The Social Cancer","The Reign of Greed","Touch Me Not","The Revolution"],ans:1,exp:"El Filibusterismo translates to 'The Reign of Greed' in English — a title that captures the novel's themes of corruption and colonial abuse."},
+  {q:"How many chapters does El Filibusterismo have?",choices:["50","64","38","45"],ans:2,exp:"El Filibusterismo contains 38 chapters, compared to 64 in Noli Me Tangere."},
+  {q:"To whom did Rizal dedicate El Filibusterismo?",choices:["His mother and sisters","Governor General Terrero","The three martyred priests of the Cavite Mutiny (GOMBURZA)","The Filipino reformists in Spain"],ans:2,exp:"Rizal dedicated the novel to Mariano Gómez, José Burgos, and Jacinto Zamora — the GOMBURZA whose execution greatly influenced the novel's message."},
+  {q:"Where and when was El Filibusterismo published?",choices:["Berlin, Germany — 1887","Madrid, Spain — 1890","Ghent, Belgium — September 18, 1891","London, England — 1888"],ans:2,exp:"El Filibusterismo was published in Ghent, Belgium on September 18, 1891, with financial help from Valentin Ventura."},
+  {q:"Who provided the financial help for publishing El Filibusterismo?",choices:["Maximo Viola","Ferdinand Blumentritt","Graciano López Jaena","Valentin Ventura"],ans:3,exp:"Valentin Ventura funded the printing of El Filibusterismo in Ghent, Belgium — similar to how Maximo Viola helped fund the Noli."},
+  {q:"Where did Rizal complete El Filibusterismo?",choices:["Brussels","London","Calamba","Biarritz"],ans:3,exp:"Rizal completed the novel on March 29, 1891 in Biarritz, France, after working on it across multiple cities."},
+  {q:"Who is Simoun?",choices:["A new character who is a Spanish general","Crisostomo Ibarra disguised as a wealthy jeweler","A Filipino priest who opposes Spain","The son of Elias from Noli Me Tangere"],ans:1,exp:"Simoun is Crisostomo Ibarra from Noli Me Tangere in disguise. He seeks revenge against the Spanish government and friars, symbolizing anger and revolution."},
+  {q:"How did Isagani stop the bomb explosion?",choices:["He told the Guardia Civil about the plan","He convinced Simoun to cancel the revolt","He threw the bomb into the river when he realized his beloved was inside","He arrested Basilio before the event"],ans:2,exp:"Isagani threw the lamp bomb into the river after realizing Paulita Gomez — the woman he loved — was inside the building, foiling Simoun's revolutionary plan."},
+  {q:"What does Father Florentino do with Simoun's jewels?",choices:["He gives them to the Church","He throws them into the sea","He returns them to the Spanish government","He distributes them among the poor"],ans:1,exp:"Father Florentino throws Simoun's jewels into the sea, declaring that treasures used for corruption should someday serve a noble purpose — a powerful moral statement ending the novel."},
+  {q:"What does 'filibustero' mean in Spanish colonial Philippines?",choices:["A wealthy trader who pays taxes","A loyal subject of Spain","A revolutionary or dangerous patriot — someone suspected of rebellion","A traveling journalist"],ans:2,exp:"During the Spanish period, 'filibustero' was used to label anyone suspected of being a revolutionary. Educated Filipinos feared the term because it was associated with rebellion and execution."},
+  {q:"Who is Kabesang Tales?",choices:["A rich student who supports the friars","A farmer whose land was taken by friars, who becomes a rebel","A journalist who spreads propaganda","A government official who blocks reforms"],ans:1,exp:"Kabesang Tales is a farmer whose land was unjustly seized by the friars. He becomes a rebel out of desperation, representing Filipinos driven to rebellion by colonial injustice."},
+  {q:"Which character represents the educated Filipino youth in El Filibusterismo?",choices:["Simoun","Padre Salvi","Basilio","Don Custodio"],ans:2,exp:"Basilio, the son of Sisa from Noli Me Tangere, is now a medical student. He represents the educated Filipino youth — initially peaceful but caught between reform and revolution."},
+  {q:"How is El Filibusterismo described compared to Noli Me Tangere?",choices:["El Fili is romantic; Noli is political","Both are romantic novels with similar tones","Noli is the book of the heart; El Fili is the book of the head","El Fili is lighter and humorous; Noli is darker"],ans:2,exp:"Noli Me Tangere is described as the book of the heart — romantic, fresh, humorous. El Filibusterismo is the book of the head — political, bitter, and filled with sorrow and violence."},
+  {q:"What does Juli represent in the novel?",choices:["Women who benefit from colonial society","Innocent Filipinos who suffer from abuse and injustice","Educated women who fight for reform","Wealthy women who support Simoun's revolution"],ans:1,exp:"Juli is Basilio's sweetheart who sacrifices herself to protect her dignity from Padre Camorra. She represents innocent, vulnerable Filipinos who suffer from the abuse of colonial authority."},
+  {q:"How long did Rizal spend writing El Filibusterismo?",choices:["1 year","2 years","3 years","5 years"],ans:2,exp:"Rizal spent approximately 3 years writing El Filibusterismo, starting in October 1887 in Calamba and completing it on March 29, 1891 in Biarritz."}
+];
+
+let fcIdx=0, fcFlipped=false;
+let qIdx=0, score=0, answered=false;
+let fcOrder=[...Array(flashcards.length).keys()];
+
+function switchTab(t,el){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(t).classList.add('active');
+  if(t==='flashcards') renderFC();
+  if(t==='quiz'){qIdx=0;score=0;answered=false;
+    document.getElementById('quiz-body').style.display='block';
+    document.getElementById('quiz-results').style.display='none';
+    renderQ();
+  }
+}
+
+function renderFC(){
+  fcFlipped=false;
+  document.getElementById('fc-inner').classList.remove('flipped');
+  const card=flashcards[fcOrder[fcIdx]];
+  document.getElementById('fc-q').textContent=card.q;
+  document.getElementById('fc-a').textContent=card.a;
+  document.getElementById('fc-count').textContent=`Card ${fcIdx+1} of ${flashcards.length}`;
+  document.getElementById('fc-fill').style.width=((fcIdx+1)/flashcards.length*100)+'%';
+  document.getElementById('fc-prev').disabled=fcIdx===0;
+  document.getElementById('fc-next').disabled=fcIdx===flashcards.length-1;
+}
+
+function flipCard(){
+  fcFlipped=!fcFlipped;
+  document.getElementById('fc-inner').classList.toggle('flipped',fcFlipped);
+}
+
+function fcNav(d){
+  fcIdx=Math.max(0,Math.min(flashcards.length-1,fcIdx+d));
+  renderFC();
+}
+
+function shuffleCards(){
+  for(let i=fcOrder.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [fcOrder[i],fcOrder[j]]=[fcOrder[j],fcOrder[i]];
+  }
+  fcIdx=0; renderFC();
+}
+
+function renderQ(){
+  if(qIdx>=questions.length){showResults();return;}
+  answered=false;
+  const q=questions[qIdx];
+  document.getElementById('q-num').textContent=`Question ${qIdx+1} of ${questions.length}`;
+  document.getElementById('q-score').textContent=`Score: ${score} / ${qIdx}`;
+  document.getElementById('q-text').textContent=q.q;
+  document.getElementById('explanation').className='explanation';
+  document.getElementById('q-next').className='btn btn-primary q-next';
+  document.getElementById('quiz-fill').style.width=(qIdx/questions.length*100)+'%';
+  const ch=document.getElementById('choices');
+  ch.innerHTML='';
+  const letters=['A','B','C','D'];
+  q.choices.forEach((c,i)=>{
+    const b=document.createElement('button');
+    b.className='choice';
+    b.innerHTML=`<span class="choice-letter">${letters[i]}</span>${c}`;
+    b.onclick=()=>selectChoice(i,b);
+    ch.appendChild(b);
+  });
+}
+
+function selectChoice(i,btn){
+  if(answered)return;
+  answered=true;
+  const q=questions[qIdx];
+  document.querySelectorAll('.choice').forEach(b=>b.disabled=true);
+  if(i===q.ans){btn.classList.add('correct');score++;}
+  else{btn.classList.add('wrong');document.querySelectorAll('.choice')[q.ans].classList.add('correct');}
+  document.getElementById('q-score').textContent=`Score: ${score} / ${qIdx+1}`;
+  const exp=document.getElementById('explanation');
+  exp.textContent='💡 '+q.exp;
+  exp.className='explanation show';
+  document.getElementById('q-next').className='btn btn-primary q-next show';
+}
+
+function nextQ(){qIdx++;renderQ();}
+
+function showResults(){
+  document.getElementById('quiz-body').style.display='none';
+  document.getElementById('quiz-results').style.display='block';
+  document.getElementById('quiz-fill').style.width='100%';
+  const pct=Math.round(score/questions.length*100);
+  document.getElementById('result-score').textContent=`${score}/${questions.length}`;
+  document.getElementById('result-label').textContent=`${pct}% correct`;
+  let icon,title,msg;
+  if(pct>=90){icon='🏆';title='Excellent!';msg='Outstanding! You have a strong mastery of El Filibusterismo. Rizal would be proud.';}
+  else if(pct>=70){icon='👍';title='Good job!';msg=`You scored ${score} out of ${questions.length}. Review the parts you missed and try again!`;}
+  else{icon='📖';title='Keep studying!';msg=`You scored ${score} out of ${questions.length}. Head back to the Reviewer and Flashcards — you've got this!`;}
+  document.getElementById('result-icon').textContent=icon;
+  document.getElementById('result-title').textContent=title;
+  document.getElementById('result-msg').textContent=msg;
+}
+
+function restartQuiz(){
+  qIdx=0;score=0;answered=false;
+  document.getElementById('quiz-body').style.display='block';
+  document.getElementById('quiz-results').style.display='none';
+  renderQ();
+}
+
+renderFC();
+renderQ();
+</script>
+</body>
+</html>
